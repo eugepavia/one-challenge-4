@@ -23,5 +23,7 @@ public class Respuesta {
     @JoinColumn(name = "topico_id")
     private Topico topico;
     private LocalDateTime fechaCreacion;
-    private long autor;
+    @ManyToOne
+    @JoinColumn(name = "autor_id")
+    private Usuario autor;
 }

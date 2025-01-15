@@ -69,6 +69,14 @@ public class TopicoController {
         return ResponseEntity.ok(new TopicoDetallesDTO(topico));
     }
 
+    // Elimina tópico específico por ID
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity eliminaTopico(@PathVariable Long id) {
+        topicoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 

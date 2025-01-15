@@ -23,6 +23,8 @@ public class Usuario {
     private String contrasena;
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Topico> topicos;
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Respuesta> respuestas;
 
 
     // GETTERS

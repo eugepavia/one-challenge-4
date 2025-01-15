@@ -27,6 +27,8 @@ public class TopicoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+
+    // Registra tópico nuevo
     @PostMapping
     public ResponseEntity<TopicoSalidaDTO> registraTopico(@RequestBody @Valid TopicoEntradaDTO topicoDTO, UriComponentsBuilder uri) {
         Usuario autor = usuarioRepository.getReferenceById(topicoDTO.autorId());
@@ -42,11 +44,18 @@ public class TopicoController {
         return ResponseEntity.created(url).body(retorno);
     }
 
-
+    // Consulta lista de todos los tópicos
     @GetMapping
     public ResponseEntity<Page<TopicoDetallesDTO>> listaTopicos(@PageableDefault(size = 10, sort = "fechaCreacion") Pageable paginacion) {
             var pagina = topicoRepository.findAll(paginacion).map(TopicoDetallesDTO::new);
         return ResponseEntity.ok(pagina);
+    }
+
+    // Consulta tópico específico por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<TopicoDetallesDTO> consultaTopico(@PathVariable Long id) {
+        var topico = topicoRepository.getReferenceById(id);
+        return ResponseEntity.ok(new TopicoDetallesDTO(topico));
     }
 
 

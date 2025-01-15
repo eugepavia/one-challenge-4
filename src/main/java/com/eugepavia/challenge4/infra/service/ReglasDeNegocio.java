@@ -32,6 +32,15 @@ public class ReglasDeNegocio {
         return topicoRepository.getReferenceById(id);
     }
 
+    // Revisar si el tópico está duplicado
+    public void topicoDuplicado(Topico topico) {
+        if (topicoRepository.findByMensaje(topico.getMensaje()).isPresent()) {
+            throw new ValidaDatosException("No se permiten tópicos repetidos (el mensaje coincide con otro tópico)");
+        }
+        if (topicoRepository.findByTitulo(topico.getTitulo()).isPresent()) {
+            throw new ValidaDatosException("No se permiten tópicos repetidos (el título coincide con otro tópico)");
+        }
+    }
 
 
 

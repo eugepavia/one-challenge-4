@@ -1,8 +1,6 @@
 package com.eugepavia.challenge4.infra.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.UnexpectedTypeException;
-import jakarta.validation.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

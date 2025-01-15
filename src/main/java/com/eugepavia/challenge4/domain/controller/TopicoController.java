@@ -38,6 +38,7 @@ public class TopicoController {
     public ResponseEntity<TopicoSalidaDTO> registraTopico(@RequestBody @Valid TopicoEntradaDTO topicoDTO, UriComponentsBuilder uri) {
         var autor = revision.existeUsuario(topicoDTO.autorId());
         Topico topico = new Topico(topicoDTO,autor);
+        revision.topicoDuplicado(topico);
         topicoRepository.save(topico);
 
         URI url = uri.path("/{id}")

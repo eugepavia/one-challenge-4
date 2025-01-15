@@ -1,5 +1,6 @@
 package com.eugepavia.challenge4.domain.controller;
 
+import com.eugepavia.challenge4.domain.dto.TopicoDetallesDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoSalidaDTO;
 import com.eugepavia.challenge4.domain.model.Topico;
@@ -8,11 +9,11 @@ import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -40,6 +41,14 @@ public class TopicoController {
 
         return ResponseEntity.created(url).body(retorno);
     }
+
+
+    @GetMapping
+    public ResponseEntity<Page<TopicoDetallesDTO>> listaTopicos(@PageableDefault(size = 10, sort = "fechaCreacion") Pageable paginacion) {
+            var pagina = topicoRepository.findAll(paginacion).map(TopicoDetallesDTO::new);
+        return ResponseEntity.ok(pagina);
+    }
+
 
 
 

@@ -26,5 +26,8 @@ public enum Curso {
         return Curso.OTROS;
     }
 
-
+    // GETTERS
+    public String getTituloCompleto() {
+        return tituloCompleto;
+    }
 }

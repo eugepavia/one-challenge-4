@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
-@Getter
+// @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -23,4 +23,26 @@ public class Usuario {
     private String contrasena;
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Topico> topicos;
+
+
+    // GETTERS
+    public long getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public List<Topico> getTopicos() {
+        return topicos;
+    }
 }

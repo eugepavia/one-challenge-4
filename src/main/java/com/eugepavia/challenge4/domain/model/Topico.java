@@ -36,6 +36,11 @@ public class Topico {
     private List<Respuesta> respuestas;
 
     // CONSTRUCTORES
+
+
+    public Topico() {
+    }
+
     public Topico(TopicoEntradaDTO topicoDTO, Usuario autor) {
         this.titulo = topicoDTO.titulo();
         this.mensaje = topicoDTO.mensaje();
@@ -70,6 +75,10 @@ public class Topico {
 
     public Usuario getAutor() {
         return autor;
+    }
+
+    public Curso getCurso() {
+        return curso;
     }
 
     public List<Respuesta> getRespuestas() {

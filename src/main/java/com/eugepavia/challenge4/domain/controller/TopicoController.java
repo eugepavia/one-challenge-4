@@ -1,5 +1,6 @@
 package com.eugepavia.challenge4.domain.controller;
 
+import com.eugepavia.challenge4.domain.dto.TopicoActualizacionDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoDetallesDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoSalidaDTO;
@@ -7,6 +8,7 @@ import com.eugepavia.challenge4.domain.model.Topico;
 import com.eugepavia.challenge4.domain.model.Usuario;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +60,14 @@ public class TopicoController {
         return ResponseEntity.ok(new TopicoDetallesDTO(topico));
     }
 
+    // Actualiza tópico específico por ID
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TopicoDetallesDTO> actualizaTopico(@RequestBody @Valid TopicoActualizacionDTO topicoDTO, @PathVariable Long id) {
+        Topico topico = topicoRepository.getReferenceById(id);
+        topico.actualizaDatos(topicoDTO);
+        return ResponseEntity.ok(new TopicoDetallesDTO(topico));
+    }
 
 
 

@@ -1,7 +1,9 @@
 package com.eugepavia.challenge4.domain.model;
 
+import com.eugepavia.challenge4.domain.dto.TopicoActualizacionDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -50,9 +52,16 @@ public class Topico {
         this.curso = Curso.fromTitulo(topicoDTO.curso());
     }
 
+    // Método para actualizar datos de un tópico
+    public void actualizaDatos(TopicoActualizacionDTO topicoDTO) {
+        this.mensaje = topicoDTO.mensaje();
+        this.status = Status.fromStatus(topicoDTO.status());
+    }
+
+
+
+
     // GETTERS
-
-
     public long getId() {
         return id;
     }
@@ -84,4 +93,6 @@ public class Topico {
     public List<Respuesta> getRespuestas() {
         return respuestas;
     }
+
+
 }

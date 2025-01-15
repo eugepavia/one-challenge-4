@@ -1,5 +1,7 @@
 package com.eugepavia.challenge4.domain.model;
 
+import jakarta.validation.ValidationException;
+
 public enum Curso {
     HTTP("HTTP en la web"),
     JAVA("Introducción a Java"),
@@ -16,14 +18,14 @@ public enum Curso {
         this.tituloCompleto = tituloCompleto;
     }
 
-    // Método para convertir el nombre del curso de TopicoEntradaDTO a objeto Enum Curso
+    // Método para convertir el nombre del curso "tituloCompleto" a objeto Enum Curso
     public static Curso fromTitulo(String texto) {
         for (Curso curso : Curso.values()) {
             if (curso.tituloCompleto.equalsIgnoreCase(texto)) {
                 return curso;
             }
         }
-        return Curso.OTROS;
+        throw new ValidationException("Status no válido");
     }
 
     // GETTERS

@@ -2,10 +2,8 @@ package com.eugepavia.challenge4.domain.model;
 
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -25,20 +23,26 @@ public class Topico {
     private String titulo;
     @Column(unique = true)
     private String mensaje;
+    @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
     @Enumerated(EnumType.STRING)
     private Status status;
-    private long autorId;
+    @ManyToOne
+    @JoinColumn(name = "autor_id")
+    private Usuario autor;
+    @Enumerated(EnumType.STRING)
+    private Curso curso;
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Respuesta> respuestas;
 
     // CONSTRUCTORES
-    public Topico(TopicoEntradaDTO topicoDTO) {
+    public Topico(TopicoEntradaDTO topicoDTO, Usuario autor) {
         this.titulo = topicoDTO.titulo();
         this.mensaje = topicoDTO.mensaje();
         this.fechaCreacion = LocalDateTime.now();
         this.status = Status.SIN_RESOLVER;
-        this.autorId = topicoDTO.autorId();
+        this.autor = autor;
+        this.curso = Curso.fromTitulo(topicoDTO.curso());
     }
 
     // GETTERS
@@ -64,8 +68,8 @@ public class Topico {
         return status;
     }
 
-    public long getAutorId() {
-        return autorId;
+    public Usuario getAutor() {
+        return autor;
     }
 
     public List<Respuesta> getRespuestas() {

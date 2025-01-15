@@ -1,0 +1,1 @@
+ALTER TABLE topicos RENAME COLUMN autorId to autor_id;

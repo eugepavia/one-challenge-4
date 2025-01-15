@@ -3,7 +3,9 @@ package com.eugepavia.challenge4.domain.controller;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoSalidaDTO;
 import com.eugepavia.challenge4.domain.model.Topico;
+import com.eugepavia.challenge4.domain.model.Usuario;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
+import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +22,15 @@ import java.net.URI;
 public class TopicoController {
 
     @Autowired
-    TopicoRepository repository;
+    private TopicoRepository topicoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @PostMapping
     public ResponseEntity<TopicoSalidaDTO> registraTopico(@RequestBody @Valid TopicoEntradaDTO topicoDTO, UriComponentsBuilder uri) {
-        Topico topico = new Topico(topicoDTO);
-        repository.save(topico);
+        Usuario autor = usuarioRepository.getReferenceById(topicoDTO.autorId());
+        Topico topico = new Topico(topicoDTO,autor);
+        topicoRepository.save(topico);
 
         URI url = uri.path("/{id}")
                 .buildAndExpand(topico.getId())

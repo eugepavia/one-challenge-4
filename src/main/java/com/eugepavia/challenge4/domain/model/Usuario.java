@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "usuarios")
 @Getter
@@ -19,4 +21,6 @@ public class Usuario {
     private String nombre;
     private String email;
     private String contrasena;
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Topico> topicos;
 }

@@ -8,6 +8,7 @@ import com.eugepavia.challenge4.domain.model.Topico;
 import com.eugepavia.challenge4.domain.model.Usuario;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
+import com.eugepavia.challenge4.infra.service.ReglasDeNegocio;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,13 @@ public class TopicoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private ReglasDeNegocio revision;
 
     // Registra tópico nuevo
     @PostMapping
     public ResponseEntity<TopicoSalidaDTO> registraTopico(@RequestBody @Valid TopicoEntradaDTO topicoDTO, UriComponentsBuilder uri) {
-        Usuario autor = usuarioRepository.getReferenceById(topicoDTO.autorId());
+        var autor = revision.existeUsuario(topicoDTO.autorId());
         Topico topico = new Topico(topicoDTO,autor);
         topicoRepository.save(topico);
 
@@ -56,7 +59,7 @@ public class TopicoController {
     // Consulta tópico específico por ID
     @GetMapping("/{id}")
     public ResponseEntity<TopicoDetallesDTO> consultaTopico(@PathVariable Long id) {
-        var topico = topicoRepository.getReferenceById(id);
+        var topico = revision.existeTopico(id);
         return ResponseEntity.ok(new TopicoDetallesDTO(topico));
     }
 
@@ -64,7 +67,7 @@ public class TopicoController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<TopicoDetallesDTO> actualizaTopico(@RequestBody @Valid TopicoActualizacionDTO topicoDTO, @PathVariable Long id) {
-        Topico topico = topicoRepository.getReferenceById(id);
+        var topico = revision.existeTopico(id);
         topico.actualizaDatos(topicoDTO);
         return ResponseEntity.ok(new TopicoDetallesDTO(topico));
     }
@@ -73,6 +76,7 @@ public class TopicoController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity eliminaTopico(@PathVariable Long id) {
+        revision.existeTopico(id);
         topicoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

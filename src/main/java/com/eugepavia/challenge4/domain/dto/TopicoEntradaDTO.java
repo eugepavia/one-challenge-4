@@ -2,16 +2,18 @@ package com.eugepavia.challenge4.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public record TopicoEntradaDTO(
-        @NotBlank
+        @NotBlank(message = "{titulo.obligatorio}")
         String titulo,
-        @NotBlank
+        @NotBlank(message = "{mensaje.obligatorio}")
         String mensaje,
-        //@NotBlank
+        @NotNull(message = "{autor.obligatorio}")
         @JsonAlias("autor_id")
         Long autorId,
-        @NotBlank
+        @NotBlank(message = "{curso.obligatorio}")
         String curso
 ) {
 }

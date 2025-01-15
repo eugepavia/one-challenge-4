@@ -1,5 +1,6 @@
 package com.eugepavia.challenge4.domain.model;
 
+import com.eugepavia.challenge4.infra.service.ValidaDatosException;
 import jakarta.validation.ValidationException;
 
 public enum Status {
@@ -19,7 +20,11 @@ public enum Status {
                 return status;
             }
         }
-        throw new ValidationException("Status no válido");
+        String mensaje = """
+                Status no válido. Ingresar una de las siguientes opciones:
+                - Sin resolver
+                - Resuelto""";
+        throw new ValidaDatosException("Status no válido");
     }
 
 

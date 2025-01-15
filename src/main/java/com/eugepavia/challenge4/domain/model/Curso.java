@@ -1,5 +1,6 @@
 package com.eugepavia.challenge4.domain.model;
 
+import com.eugepavia.challenge4.infra.service.ValidaDatosException;
 import jakarta.validation.ValidationException;
 
 public enum Curso {
@@ -25,7 +26,17 @@ public enum Curso {
                 return curso;
             }
         }
-        throw new ValidationException("Status no válido");
+        String mensaje = """
+                Curso no válido. Ingresar una de las siguientes opciones:
+                - HTTP en la web
+                - Introducción a Java
+                - Springboot Framework
+                - POO con Javascript
+                - HTML y CSS en la web
+                - Lógica de programación
+                - Buenas prácticas
+                - Otros""";
+        throw new ValidaDatosException(mensaje);
     }
 
     // GETTERS

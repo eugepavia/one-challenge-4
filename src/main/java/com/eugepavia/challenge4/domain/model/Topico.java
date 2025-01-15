@@ -54,8 +54,12 @@ public class Topico {
 
     // Método para actualizar datos de un tópico
     public void actualizaDatos(TopicoActualizacionDTO topicoDTO) {
-        this.mensaje = topicoDTO.mensaje();
-        this.status = Status.fromStatus(topicoDTO.status());
+        if (topicoDTO.mensaje() != null) {
+            this.mensaje = topicoDTO.mensaje();
+        }
+        if (topicoDTO.status() != null) {
+            this.status = Status.fromStatus(topicoDTO.status());
+        }
     }
 
 

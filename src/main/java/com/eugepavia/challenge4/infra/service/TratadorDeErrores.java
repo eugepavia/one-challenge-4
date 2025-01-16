@@ -2,6 +2,8 @@ package com.eugepavia.challenge4.infra.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +31,17 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    // Para usuario/contraseña inválidos
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity error403LoginInvalido() {
+        return ResponseEntity.badRequest().body("El usuario y/o la contraseña no se encuentran registrados");
+    }
+
+    // Para permisos inválidos
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity error403PermisoInvalido() {
+        return ResponseEntity.badRequest().body("No se tienen los permisos necesarios para realizar esta acción");
+    }
 
     // DTO para formato de error 400
     private record DatosError400(String campo, String error) {

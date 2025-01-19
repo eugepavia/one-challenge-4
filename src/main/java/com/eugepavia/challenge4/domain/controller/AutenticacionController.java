@@ -1,6 +1,8 @@
 package com.eugepavia.challenge4.domain.controller;
 
 import com.eugepavia.challenge4.domain.dto.AutenticacionDTO;
+import com.eugepavia.challenge4.domain.model.Usuario;
+import com.eugepavia.challenge4.infra.service.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +20,15 @@ public class AutenticacionController {
 
     @Autowired
     private AuthenticationManager manager;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping
     public ResponseEntity autenticarUsuario(@RequestBody @Valid AutenticacionDTO dto) {
         Authentication authToken = new UsernamePasswordAuthenticationToken(dto.usuario(),dto.contrasena());
         var usuarioAutenticado = manager.authenticate(authToken);
-        // var JWTtoken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
-        // return ResponseEntity.ok(JWTtoken);
-        return ResponseEntity.ok().build();
+        var jwtToken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
+        return ResponseEntity.ok(jwtToken);
     }
 
 

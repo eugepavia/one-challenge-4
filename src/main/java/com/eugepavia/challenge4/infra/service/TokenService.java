@@ -42,9 +42,18 @@ public class TokenService {
         }
 
         DecodedJWT verifier = null;
-        var verificacion = verificaToken(token);
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            verifier = JWT.require(algorithm)
+                    .withIssuer("Foro Hub")
+                    .build()
+                    .verify(token);
+            verifier.getSubject();
+        } catch (JWTVerificationException exception){
+            System.out.println(exception.toString());
+        }
 
-        if (verificacion == null) {
+        if (verifier.getSubject() == null) {
             throw new RuntimeException("Verifier inválido");
         }
         return verifier.getSubject();

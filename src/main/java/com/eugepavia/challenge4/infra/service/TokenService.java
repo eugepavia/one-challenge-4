@@ -8,16 +8,19 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.eugepavia.challenge4.domain.model.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+// Servicios relacionados con la generación y validación de tokens
+
 @Service
 public class TokenService {
 
-    @Value("${api.security.secret}")  // Configurar variable de entorno ${API_SECRET}
+    @Value("${api.security.secret}")  // Configurar variable de entorno
     private String apiSecret;
+    @Value("${token.expiration}")  // Configurar variable de entorno
+    private Long tokenExpiration;
 
     // Método para generar tokens
     public String generarToken(Usuario usuario) {
@@ -75,10 +78,9 @@ public class TokenService {
         return null;
     }
 
-
-    // Tiempo de expiración de tokens (3 horas)
+    // Tiempo de expiración de tokens
     private Instant generaFechaExpiracion() {
-        return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-06:00"));
+        return LocalDateTime.now().plusHours(tokenExpiration).toInstant(ZoneOffset.of("-06:00"));
     }
 
 

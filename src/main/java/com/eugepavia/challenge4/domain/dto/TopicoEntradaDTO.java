@@ -2,8 +2,9 @@ package com.eugepavia.challenge4.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
+// Clase DTO para el registro de tópicos nuevos
 
 public record TopicoEntradaDTO(
         @NotBlank(message = "{titulo.obligatorio}")

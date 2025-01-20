@@ -1,7 +1,8 @@
 package com.eugepavia.challenge4.domain.model;
 
 import com.eugepavia.challenge4.infra.service.ValidaDatosException;
-import jakarta.validation.ValidationException;
+
+// Clase Enumerated para el status de resolución de los tópicos
 
 public enum Status {
     SIN_RESOLVER("Sin resolver"),
@@ -9,7 +10,9 @@ public enum Status {
 
     private String statusCompleto;
 
-    private Status(String statusCompleto) {
+
+    // CONSTRUCTORES
+    Status(String statusCompleto) {
         this.statusCompleto = statusCompleto;
     }
 

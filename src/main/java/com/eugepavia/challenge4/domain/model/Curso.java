@@ -1,7 +1,8 @@
 package com.eugepavia.challenge4.domain.model;
 
 import com.eugepavia.challenge4.infra.service.ValidaDatosException;
-import jakarta.validation.ValidationException;
+
+// Clase Enumerated para el curso al que corresponden los tópicos
 
 public enum Curso {
     HTTP("HTTP en la web"),
@@ -15,7 +16,8 @@ public enum Curso {
 
     private String tituloCompleto;
 
-    private Curso(String tituloCompleto) {
+    // CONSTRUCTORES
+    Curso(String tituloCompleto) {
         this.tituloCompleto = tituloCompleto;
     }
 

@@ -3,18 +3,15 @@ package com.eugepavia.challenge4.domain.model;
 import com.eugepavia.challenge4.domain.dto.TopicoActualizacionDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
+// Clase modelo para los objetos Tópico
+
 @Entity
 @Table(name = "topicos")
-// @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Topico {
@@ -38,8 +35,6 @@ public class Topico {
     private List<Respuesta> respuestas;
 
     // CONSTRUCTORES
-
-
     public Topico() {
     }
 
@@ -52,6 +47,7 @@ public class Topico {
         this.curso = Curso.fromTitulo(topicoDTO.curso());
     }
 
+
     // Método para actualizar datos de un tópico
     public void actualizaDatos(TopicoActualizacionDTO topicoDTO) {
         if (topicoDTO.mensaje() != null) {
@@ -61,8 +57,6 @@ public class Topico {
             this.status = Status.fromStatus(topicoDTO.status());
         }
     }
-
-
 
 
     // GETTERS

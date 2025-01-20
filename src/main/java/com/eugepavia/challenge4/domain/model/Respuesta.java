@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
+
+// Clase modelo para los objetos Respuesta
 
 @Entity
 @Table(name = "respuestas")

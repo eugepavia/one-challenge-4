@@ -1,8 +1,9 @@
 package com.eugepavia.challenge4.domain.dto;
 
 import com.eugepavia.challenge4.domain.model.Topico;
-
 import java.time.LocalDateTime;
+
+// Clase DTO con la información detallada de un tópico
 
 public record TopicoDetallesDTO(
         String titulo,

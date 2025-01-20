@@ -7,6 +7,8 @@ import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// Servicio relacionado con las reglas de negocio específicas de este proyecto
+
 @Service
 public class ReglasDeNegocio {
 

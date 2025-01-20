@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+// Interfaz para Derived Queries en la base de datos MySQL
+// Consulta a la tabla "topicos"
+
 public interface TopicoRepository extends JpaRepository<Topico,Long> {
     
     Optional<Topico> findByTitulo(String titulo);

@@ -5,7 +5,6 @@ import com.eugepavia.challenge4.domain.dto.TopicoDetallesDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoSalidaDTO;
 import com.eugepavia.challenge4.domain.model.Topico;
-import com.eugepavia.challenge4.domain.model.Usuario;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import com.eugepavia.challenge4.infra.service.ReglasDeNegocio;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+
+// Clase Controller para las requests relacionadas con los tópicos
 
 @RestController
 @RequestMapping("/topicos")

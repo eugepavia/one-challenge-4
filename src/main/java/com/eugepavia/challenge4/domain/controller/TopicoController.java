@@ -8,6 +8,7 @@ import com.eugepavia.challenge4.domain.model.Topico;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import com.eugepavia.challenge4.infra.service.ReglasDeNegocio;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.net.URI;
 
 // Clase Controller para las requests relacionadas con los tópicos
 
+@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/topicos")
 public class TopicoController {

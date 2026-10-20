@@ -1,0 +1,1 @@
+ALTER TABLE usuarios ADD CONSTRAINT uk_usuarios_nombre UNIQUE (nombre);

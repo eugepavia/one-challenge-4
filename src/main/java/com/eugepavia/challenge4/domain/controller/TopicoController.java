@@ -11,6 +11,7 @@ import com.eugepavia.challenge4.infra.service.ReglasDeNegocio;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +56,7 @@ public class TopicoController {
 
     // Consulta lista de todos los tópicos
     @GetMapping
-    public ResponseEntity<Page<TopicoDetallesDTO>> listaTopicos(@PageableDefault(size = 10, sort = "fechaCreacion") Pageable paginacion) {
+    public ResponseEntity<Page<TopicoDetallesDTO>> listaTopicos(@ParameterObject @PageableDefault(size = 10, sort = "fechaCreacion") Pageable paginacion) {
             var pagina = topicoRepository.findAll(paginacion).map(TopicoDetallesDTO::new);
         return ResponseEntity.ok(pagina);
     }

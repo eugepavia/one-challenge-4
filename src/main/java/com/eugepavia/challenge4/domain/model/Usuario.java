@@ -1,5 +1,6 @@
 package com.eugepavia.challenge4.domain.model;
 
+import com.eugepavia.challenge4.domain.dto.RegistroUsuarioDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,12 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Respuesta> respuestas;
 
+    // CONSTRUCTORES
+    public Usuario(RegistroUsuarioDTO dto, String contrasenaCodificada) {
+        this.nombre = dto.nombre();
+        this.email = dto.email();
+        this.contrasena = contrasenaCodificada;
+    }
 
     // Verificación de roles
     @Override

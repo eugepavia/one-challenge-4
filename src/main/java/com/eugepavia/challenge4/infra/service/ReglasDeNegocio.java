@@ -17,6 +17,15 @@ public class ReglasDeNegocio {
     @Autowired
     private TopicoRepository topicoRepository;
 
+    // Revisar si el usuario ya está registrado (por nombre o email)
+    public void usuarioDuplicado(String nombre, String email) {
+        if (usuarioRepository.existsByNombre(nombre)) {
+            throw new ValidaDatosException("El nombre de usuario ya está registrado");
+        }
+        if (usuarioRepository.existsByEmail(email)) {
+            throw new ValidaDatosException("El correo electrónico ya está registrado");
+        }
+    }
 
     // Revisar si existe ID de usuario
     public Usuario existeUsuario(Long id) {

@@ -59,7 +59,7 @@ public class TokenService {
         if (verifier.getSubject() == null) {
             throw new RuntimeException("Verifier inválido");
         }
-        return verifier.getSubject();
+        return verificaToken(token);
 
     }
 

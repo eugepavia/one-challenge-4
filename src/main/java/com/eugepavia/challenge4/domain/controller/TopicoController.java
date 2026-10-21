@@ -5,6 +5,7 @@ import com.eugepavia.challenge4.domain.dto.TopicoDetallesDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoEntradaDTO;
 import com.eugepavia.challenge4.domain.dto.TopicoSalidaDTO;
 import com.eugepavia.challenge4.domain.model.Topico;
+import com.eugepavia.challenge4.domain.model.Usuario;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import com.eugepavia.challenge4.infra.service.ReglasDeNegocio;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -32,20 +34,16 @@ public class TopicoController {
     @Autowired
     private TopicoRepository topicoRepository;
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private ReglasDeNegocio revision;
 
     // Registra tópico nuevo
     @PostMapping
-    public ResponseEntity<TopicoSalidaDTO> registraTopico(@RequestBody @Valid TopicoEntradaDTO topicoDTO, UriComponentsBuilder uri) {
-        var autor = revision.existeUsuario(topicoDTO.autorId());
-        Topico topico = new Topico(topicoDTO,autor);
+    public ResponseEntity<TopicoSalidaDTO> registraTopico(@RequestBody @Valid TopicoEntradaDTO topicoDTO, UriComponentsBuilder uri, @AuthenticationPrincipal Usuario usuario) {
+        Topico topico = new Topico(topicoDTO,usuario);
         revision.topicoDuplicado(topico);
         topicoRepository.save(topico);
 
-        URI url = uri.path("/{id}")
+        URI url = uri.path("/topicos/{id}")
                 .buildAndExpand(topico.getId())
                 .toUri();
 
@@ -71,8 +69,9 @@ public class TopicoController {
     // Actualiza tópico específico por ID
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<TopicoDetallesDTO> actualizaTopico(@RequestBody @Valid TopicoActualizacionDTO topicoDTO, @PathVariable Long id) {
+    public ResponseEntity<TopicoDetallesDTO> actualizaTopico(@RequestBody @Valid TopicoActualizacionDTO topicoDTO, @PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
         var topico = revision.existeTopico(id);
+        revision.esAutorDelTopico(topico, usuario);
         topico.actualizaDatos(topicoDTO);
         return ResponseEntity.ok(new TopicoDetallesDTO(topico));
     }
@@ -80,8 +79,9 @@ public class TopicoController {
     // Elimina tópico específico por ID
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity eliminaTopico(@PathVariable Long id) {
-        revision.existeTopico(id);
+    public ResponseEntity eliminaTopico(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
+        var topico = revision.existeTopico(id);
+        revision.esAutorDelTopico(topico, usuario);
         topicoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

@@ -5,6 +5,7 @@ import com.eugepavia.challenge4.domain.model.Usuario;
 import com.eugepavia.challenge4.domain.repository.TopicoRepository;
 import com.eugepavia.challenge4.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 // Servicio relacionado con las reglas de negocio específicas de este proyecto
@@ -27,14 +28,6 @@ public class ReglasDeNegocio {
         }
     }
 
-    // Revisar si existe ID de usuario
-    public Usuario existeUsuario(Long id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new ValidaDatosException("El ID del autor no existe");
-        }
-        return usuarioRepository.getReferenceById(id);
-    }
-
     // Revisar si existe ID de tópico
     public Topico existeTopico(Long id) {
         if (!topicoRepository.existsById(id)) {
@@ -50,6 +43,13 @@ public class ReglasDeNegocio {
         }
         if (topicoRepository.findByTitulo(topico.getTitulo()).isPresent()) {
             throw new ValidaDatosException("No se permiten tópicos repetidos (el título coincide con otro tópico)");
+        }
+    }
+
+    // Revisar que el usuario autenticado sea el autor del tópico
+    public void esAutorDelTopico(Topico topico, Usuario usuario) {
+        if (topico.getAutor().getId() != usuario.getId()) {
+            throw new AccessDeniedException("Solo el autor del tópico puede modificarlo o eliminarlo");
         }
     }
 

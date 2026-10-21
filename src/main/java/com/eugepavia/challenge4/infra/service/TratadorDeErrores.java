@@ -1,6 +1,7 @@
 package com.eugepavia.challenge4.infra.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -8,6 +9,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.nio.file.AccessDeniedException;
 
 // Clase para tratar los errores y estados de respuesta HTTP
 
@@ -43,6 +46,12 @@ public class TratadorDeErrores {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity error403PermisoInvalido() {
         return ResponseEntity.badRequest().body("No se tienen los permisos necesarios para realizar esta acción");
+    }
+
+    // Para usuarios autenticados sin permiso sobre el recurso
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity error403SinPermiso(AccessDeniedException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
     // DTO para formato de error 400

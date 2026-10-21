@@ -1,7 +1,7 @@
 # Foro Hub
 
 ![Created](https://img.shields.io/badge/Created-Ene_2025-248f24)
-![Version](https://img.shields.io/badge/Version-1.0-c42121)
+![Version](https://img.shields.io/badge/Version-1.1-c42121)
 ![Made with](https://img.shields.io/badge/Made_with-Java-255074)
 
 
@@ -13,7 +13,7 @@ API REST de un foro de dudas sobre temas de programación básica.
 > Este trabajo fue elaborado como parte del curso Java y Spring Framework (Challenge) de Oracle Next Education (ONE).
 
 ## :dart: Funcionalidades
-- Login de usuario
+- Registro y login de usuario
 - Autenticación de usuario por medio de tokens
   - El token se genera en el login
 - Registro de tópicos en el foro
@@ -22,19 +22,20 @@ API REST de un foro de dudas sobre temas de programación básica.
 - Actualización de tópicos existentes
 - Eliminación de tópicos existentes
 
-FUNCIÓN | ENDPOINT    | REQUIERE                               | DEVUELVE
---------|-------------|----------------------------------------|---------
-Login | POST /login | _usuario_ y _contrasena_               | token
-Registro | POST /topicos | _titulo_, _mensaje_, _autorId_ y _curso_ | _titulo_, _mensaje_ y _fechaCreacion_
-Revisión de lista | GET /topicos | -                                      | lista de tópicos con _titulo_, _mensaje_, _fechaCreacion_, _status_, _autor_ y _curso_
-Revisión de tópico | GET /topicos/{id} | ID del tópico en la ruta | _titulo_, _mensaje_, _fechaCreacion_, _status_, _autor_ y _curso_
-Actualización | POST /topicos/{id} | ID del tópico en la ruta, _mensaje_ y/o _status_ | _titulo_, _mensaje_, _fechaCreacion_, _status_, _autor_ y _curso_
-Eliminación | DELETE /topicos/{id} | ID del tópico en la ruta | -
-
-
+| MÉTODO | ENDPOINT      | FUNCIÓN                                |
+|--------|---------------|----------------------------------------|
+| POST   | /registro     | Registro de usuario nuevo              |
+| POST   | /login        | Login para usuarios registrados        |
+| POST   | /topicos      | Registro de un tópico nuevo            |
+| GET    | /topicos      | Revisión de lista de todos los tópicos |
+| GET    | /topicos/{id} | Revisión de un tópico por su ID        |
+| POST   | /topicos/{id} | Actualización de un tópico por su ID   |
+| DELETE | /topicos/{id} | Eliminación de un tópico por su ID     |
+ 
 ### Consideraciones
-- Las interacciones con la API se realizan en formato JSON y requieren de un token para su autorización.
+- Las interacciones con los tópicos requieren de un token para su autorización.
   - El token se genera al acceder al login.
+- El usuario sólo puede editar y eliminar tópicos de su autoría.
 - No se permite el registro o actualización de tópicos duplicados (con el mismo título y/o nombre).
 - En el registro de tópicos es obligatorio llenar todos los campos solicitados.
 - En la actualización de tópicos no es obligatorio llenar todos los campos solicitados.
@@ -51,7 +52,6 @@ Eliminación | DELETE /topicos/{id} | ID del tópico en la ruta | -
   - Lógica de programación
   - Buenas prácticas
   - Otros
-
 - Status de resolución permitidos:
   - Sin resolver
   - Resuelto
@@ -59,19 +59,22 @@ Eliminación | DELETE /topicos/{id} | ID del tópico en la ruta | -
 ## :key: Acceso
 Para probar los endpoints, ejecutar el programa e ingresar en el puerto de su preferencia la ruta _/swagger-ui/index.html_
 
+Los endpoints relacionados con los tópicos requieren un token de autenticación. Para probarlos:
+1. Hacer login con un usuario registrado (o en su defecto, registrar un usuario nuevo y hacer el login con este)
+2. Copiar el token generado como respuesta al login.
+3. Ir a la parte superior de la página y seleccionar el botón _Authorize_ (o bien, hacer click sobre cualquier ícono de candado a un costado de los endpoints).
+4. Pegar el token en la casilla y seleccionar "Authorize"
+
 ## :white_check_mark: Requisitos
 - Base de datos MySQL.
-  - Su nombre por defecto es "challenge4". Para modificarlo ir al archivo _application.properties_ y cambiar la variable _spring.datasource.url_.
-- Registrar usuarios en la tabla correspondiente de la base de datos.
-- Variables de entorno para los siguientes datos:
-  - DB_HOST: Dirección de la base de datos
-  - DB_USER: Nombre de usuario de la base de datos
-  - DB_PASSWORD: Contraseña de la base de datos
+  - Crear la base de datos de manera local
+- Duplicar el archivo _application.example.properties_ de la carpeta resources, renombrar a _application.properties_ y agregar las variables de entorno correspondientes:
+  - spring.datasource.url: Añadir el nombre del host y de la base de datos local 
+  - spring.datasource.username: Nombre de usuario de MySQL
+  - spring.datasource.password: Contraseña de MySQL
   - API_SECRET: Clave secreta de la API
 
 ## :wave: Sobre mí
-¡Hola! Me llamo Eugenia. Soy una entusiasta del aprendizaje con gusto en la ciencia, matemáticas y tecnología.
+¡Hola! Soy Eugenia, programadora Backend en crecimiento. Empecé como profesora de matemáticas, pero mi interés por el desarrollo de software me llevó a formarme en tecnologías Backend.
 
-Actualmente soy parte del programa Oracle Next Education, con el propósito de expandir mis conocimientos y desarrollarme profesionalmente en el mundo de la programación Back-End.
-
-
+Me entusiasma seguir aprendiendo, compartir mis conocimientos y poner mis habilidades al servicio de proyectos que aporten valor. ¿Empezamos?
